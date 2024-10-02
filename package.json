@@ -1,0 +1,16 @@
+{
+  "name": "svj",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "dev": "pnpm run --parallel dev",
+    "build:server": "pnpm --filter server build",
+    "build:frontend": "pnpm --filter frontend build",
+    "start:server": "pnpm --filter server start:prod",
+    "start:frontend": "pnpm --filter frontend start",
+    "generate": "pnpm --filter frontend generate"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

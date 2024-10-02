@@ -1,0 +1,11 @@
+mutation HouseSearchSaveSearch($streetName: String!) {
+  houseSearchSaveSearch(streetName: $streetName) {
+    id
+    user {
+      id
+    }
+    house {
+      id
+    }
+  }
+}

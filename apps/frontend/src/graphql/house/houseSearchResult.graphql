@@ -1,0 +1,21 @@
+query houseSearchResult($id: ID!) {
+  houseSearchResult(id: $id) {
+    user {
+      id
+      email
+    }
+    house {
+      id
+      name
+      postalCode
+      streetName
+      postalCode
+      streetName
+      houseNumber
+      orientationNumber
+      fullAddress
+      cin
+      municipalityName
+    }
+  }
+}
