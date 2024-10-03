@@ -9,6 +9,8 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Role } from '@server/user/role.enum';
+import { Position } from '@server/user/position.enum';
 
 @ObjectType()
 @Entity()
@@ -36,6 +38,24 @@ export class User {
   @OneToMany(() => HouseSearch, (search) => search.user)
   @Field(() => [HouseSearch])
   searches: HouseSearch[];
+
+  @Field(() => [Role])
+  @Column({
+    type: 'enum',
+    enum: Role,
+    array: true,
+    default: [Role.user],
+  })
+  roles: Role[];
+
+  @Field(() => [Position])
+  @Column({
+    type: 'enum',
+    enum: Position,
+    array: true,
+    default: [], // Výchozí pozice (např. žádné)
+  })
+  positions: Position[];
 
   @CreateDateColumn()
   @Field()

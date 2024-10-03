@@ -1,10 +1,11 @@
 import { IsAuthLoader } from "@frontend/loaders/IsAuthLoader";
 import { IsLoggedInLoader } from "@frontend/loaders/IsLoggedInLoader";
+import LoginPage from "@frontend/pages/auth/LoginPage";
+import RegisterPage from "@frontend/pages/auth/RegisterPage";
 import DashboardPage from "@frontend/pages/DashboardPage";
-import FindMyHousesPage from "@frontend/pages/FindMyHousesPage";
-import FindMyHousesResultPage from "@frontend/pages/FindMyHousesResultPage";
-import LoginPage from "@frontend/pages/LoginPage";
-import RegisterPage from "@frontend/pages/RegisterPage";
+import FindMyHousesPage from "@frontend/pages/my-houses/FindMyHousesPage";
+import FindMyHousesResultPage from "@frontend/pages/my-houses/FindMyHousesResultPage";
+import MyHousesDetailPage from "@frontend/pages/my-houses/MyHousesDetailPage";
 import AuthTemplate from "@frontend/templates/AuthTemplate";
 import PublicTemplate from "@frontend/templates/PublicTemplate";
 import { createBrowserRouter } from "react-router-dom";
@@ -50,6 +51,11 @@ export const router = createBrowserRouter([
       {
         path: "/moje-domy/vyhledek-hledani/:searchId",
         element: <FindMyHousesResultPage />,
+      },
+
+      {
+        path: "/moje-domy/:houseId/detail",
+        element: <MyHousesDetailPage />,
       },
     ],
   },

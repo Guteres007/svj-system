@@ -1,0 +1,13 @@
+query HouseDetail($id: ID!) {
+  houseDetail(id: $id) {
+    id
+    name
+    postalCode
+    streetName
+    houseNumber
+    orientationNumber
+    fullAddress
+    cin
+    municipalityName
+  }
+}

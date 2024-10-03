@@ -9,7 +9,7 @@ import {
 } from 'typeorm';
 
 import { Field, ID, ObjectType } from '@nestjs/graphql';
-import { House } from '@server/house/house.entity';
+import { House } from '@server/house/entities/house.entity';
 import { HouseRequestStatusEnum } from '../enums/house-request-status.enum';
 
 @ObjectType()

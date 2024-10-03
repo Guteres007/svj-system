@@ -8,7 +8,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { HouseSearch } from './entities/house-search.entity';
+import { HouseSearch } from '@server/house/entities/house-search.entity';
 
 @ObjectType()
 @Entity()

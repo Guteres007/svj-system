@@ -7,7 +7,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { House } from '../house.entity';
+import { House } from '@server/house/entities/house.entity';
 
 @ObjectType()
 @Entity()

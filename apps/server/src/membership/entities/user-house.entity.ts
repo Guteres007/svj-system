@@ -1,5 +1,5 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
-import { House } from '@server/house/house.entity';
+
 import { User } from '@server/user/user.entity';
 import {
   Entity,
@@ -9,6 +9,7 @@ import {
   CreateDateColumn,
 } from 'typeorm';
 import { UserHouseStatusEnum } from '../enums/user-house-status.enum';
+import { House } from '@server/house/entities/house.entity';
 
 @ObjectType()
 @Entity()

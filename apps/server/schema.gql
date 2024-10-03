@@ -33,6 +33,11 @@ type HouseSearch {
   user: User!
 }
 
+type HouseSelectOptions {
+  id: String!
+  name: String!
+}
+
 type LoginResponse {
   accessToken: String!
   refreshToken: String!
@@ -50,14 +55,32 @@ type Mutation {
   registerUser(input: RegisterUserInput!): Boolean!
 }
 
+enum Position {
+  ADMINISTRATOR
+  CHAIRMAN_BOARD
+  CHAIRMAN_CONTROL
+  MEMBER_BOARD
+  MEMBER_CONTROL
+  VICE_CHAIRMAN_BOARD
+}
+
 type Query {
   getUser: User!
+  houseDetail(id: ID!): House!
   houseSearchResult(id: ID!): HouseSearch!
+  houseUserHouses: [HouseSelectOptions!]!
 }
 
 input RegisterUserInput {
   email: String!
   password: String!
+}
+
+enum Role {
+  admin
+  board
+  controlBody
+  user
 }
 
 type User {
@@ -68,6 +91,8 @@ type User {
   id: ID!
   lastName: String
   password: String!
+  positions: [Position!]!
+  roles: [Role!]!
   searches: [HouseSearch!]!
   updatedAt: DateTime!
 }

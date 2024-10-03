@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '@server/user/user.entity';
-import { House } from './house.entity';
-import { HouseSearch } from './entities/house-search.entity';
+import { HouseSearch } from '@server/house/entities/house-search.entity';
+import { House } from '@server/house/entities/house.entity';
 
 @Injectable()
 export class HouseSearchService {

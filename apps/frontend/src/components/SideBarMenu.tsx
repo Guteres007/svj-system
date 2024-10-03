@@ -9,9 +9,25 @@ import {
 } from "react-icons/fi";
 import { MyHousesStore, myHouseStore } from "@frontend/store/myHouse";
 import { NavItem } from "@frontend/components/NavItem";
-import { Select, Stack } from "@chakra-ui/react";
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import {
+  Box,
+  Button,
+  ListItem,
+  Popover,
+  PopoverBody,
+  PopoverCloseButton,
+  PopoverContent,
+  PopoverHeader,
+  PopoverTrigger,
+  Portal,
+  Stack,
+  List,
+  ListIcon,
+} from "@chakra-ui/react";
+import { useEffect, useRef } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useHouseUserHousesQuery } from "@frontend/graphql";
+import { AddIcon, LinkIcon } from "@chakra-ui/icons";
 
 interface LinkItemProps {
   name: string;
@@ -25,7 +41,7 @@ const LinkItems: Array<LinkItemProps> = [
   { name: "Katastr", icon: FiCompass, href: "/dashboard" },
   { name: "Události", icon: FiStar, href: "/dashboard" },
   { name: "Ankety", icon: FiSettings, href: "/dashboard" },
-  { name: "Náš dům", icon: FiStar, href: "/dashboard" },
+  { name: "Náš dům", icon: FiStar, href: "/detail" },
   { name: "Externí kontakty", icon: FiStar, href: "/dashboard" },
   { name: "Dokumenty", icon: FiStar, href: "/dashboard" },
   { name: "Fotogalerie", icon: FiStar, href: "/dashboard" },
@@ -42,47 +58,87 @@ interface LinkItemProps {
   href: string;
 }
 
-const userHouses: Array<{ name: string; id: string }> = [
-  { name: "1", id: "1" },
-  { name: "2", id: "2" },
-];
-
 function SideBarMenu() {
+  const { data: userHouses } = useHouseUserHousesQuery();
   const navigate = useNavigate();
   const selectedHouse = myHouseStore(
     (state: MyHousesStore) => state.selectedHouse,
   );
   const setHouse = myHouseStore((state: MyHousesStore) => state.setHouse);
   const getHouse = myHouseStore((state: MyHousesStore) => state.getHouse);
+
   useEffect(() => {
-    if (!getHouse()) {
-      if (userHouses.length > 0) {
-        setHouse(userHouses?.[0].id);
+    if (!getHouse() && userHouses?.houseUserHouses) {
+      if (userHouses?.houseUserHouses?.length > 0) {
+        setHouse(userHouses?.houseUserHouses?.[0]?.id);
       }
     }
-  }, [setHouse, getHouse]);
+  }, [setHouse, userHouses?.houseUserHouses, getHouse]);
 
-  const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setHouse(e.target.value);
-    navigate("/moje-domy/" + e.target.value + "/dashboard");
+  const initRef = useRef(null);
+
+  const handleClick = (id: string) => {
+    setHouse(id);
+    navigate("/moje-domy/" + id + "/dashboard");
   };
 
   return (
     <div>
-      <Stack spacing={3}>
-        {selectedHouse ? (
-          <Select onChange={(e) => handleSelect(e)} value={selectedHouse}>
-            {userHouses.map((link) => (
-              <option key={link.id} value={link.id}>
-                {link.name}
-              </option>
-            ))}
-          </Select>
-        ) : (
-          ""
-        )}
+      <Stack spacing={3} padding={4}>
+        <Popover placement="left" initialFocusRef={initRef}>
+          {({ isOpen, onClose }) => (
+            <>
+              <PopoverTrigger>
+                <Button>Vyber svůj dům</Button>
+              </PopoverTrigger>
+              <Portal>
+                <PopoverContent>
+                  <PopoverHeader>
+                    <Stack direction="row" spacing={4}>
+                      <Button
+                        leftIcon={<AddIcon />}
+                        colorScheme="teal"
+                        variant="solid"
+                      >
+                        <Link to="/moje-domy/vyhledat"> Přidat dům </Link>
+                      </Button>
+                    </Stack>
+                  </PopoverHeader>
+                  <PopoverCloseButton />
+                  <PopoverBody>
+                    <Box>
+                      <List styleType="none" m={0} p={4}>
+                        {userHouses?.houseUserHouses.map((link) => {
+                          const href = "/moje-domy/" + link.id + "/dashboard";
+
+                          return (
+                            <ListItem
+                              key={link.id}
+                              mb={2}
+                              _hover={{
+                                color: "teal.500",
+                              }}
+                            >
+                              <Link
+                                onClick={() => handleClick(link.id)}
+                                to={href}
+                              >
+                                <ListIcon as={LinkIcon} color="green.500" />
+                                {link.name}
+                              </Link>
+                            </ListItem>
+                          );
+                        })}
+                      </List>
+                    </Box>
+                  </PopoverBody>
+                </PopoverContent>
+              </Portal>
+            </>
+          )}
+        </Popover>
       </Stack>
-      {selectedHouse}
+      <div> {getHouse()}</div> 
       {LinkItems.map((link) => {
         const href = "/moje-domy/" + selectedHouse + link.href;
         return (

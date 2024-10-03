@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { AresService } from '@server/ares/ares.service';
 import { ILike, Repository } from 'typeorm';
-import { House } from './house.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AresApiResponse } from '@server/ares/ares.response';
+import { House } from '@server/house/entities/house.entity';
+import { User } from '@server/user/user.entity';
 
 @Injectable()
 export class HouseService {
@@ -46,5 +47,16 @@ export class HouseService {
       );
     }
     return existedHouse;
+  }
+
+  //TODO: add userId
+  async getUserHouses(user: User): Promise<House[]> {
+    return await this.houseRepository.find();
+  }
+
+  async getHouseDetail(id: string): Promise<House | null> {
+    return await this.houseRepository.findOne({
+      where: { id },
+    });
   }
 }
